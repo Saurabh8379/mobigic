@@ -224,16 +224,24 @@ class DisplayGridScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: ElevatedButton(
-                onPressed: () {
-                  String searchText = _searchController.text.toUpperCase();
-                  List<List<bool>> highlights = searchInGrid(searchText, grid);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HighlightedGridScreen(grid: grid, highlights: highlights),
-                    ),
-                  );
-                },
+                  onPressed: () {
+                    String searchText = _searchController.text.toUpperCase();
+                    if (searchText.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Please enter text to search'),
+                        ),
+                      );
+                    } else {
+                      List<List<bool>> highlights = searchInGrid(searchText, grid);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HighlightedGridScreen(grid: grid, highlights: highlights),
+                        ),
+                      );
+                    }
+                  },
                 child: Text('Search'),
               ),
             ),
